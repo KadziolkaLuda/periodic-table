@@ -1,0 +1,26 @@
+// =============================================================================
+// LAYOUT STYLES
+// =============================================================================
+
+// Global body styles
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Main app container
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+// Main content area
+.main-content {
+  flex: 1;
+  padding: 1.5rem 0;
+}
+
