@@ -1,0 +1,30 @@
+// =============================================================================
+// FORM STYLES
+// =============================================================================
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.form-field-overrides((
+    filled-container-color: var(--color-white),
+    filled-hover-label-text-color: var(--color-accent),
+    filled-hover-active-indicator-color: var(--color-tahiti),
+    hover-state-layer-opacity: 0,
+  ));
+}
+
+.mat-mdc-form-field { 
+  &.mat-mdc-form-field-filled{
+    --mdc-filled-text-field-container-color-active: var(--color-white);
+  }
+  &-focus-overlay {
+    background-color: var(--color-white) !important;
+  }
+}
+
+.mdc-text-field {
+  &--filled {
+    &.mdc-text-field--focused {
+      border-width: 1px 1px 0 1px;
+    }
+  }
+}

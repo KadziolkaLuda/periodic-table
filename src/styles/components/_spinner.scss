@@ -1,3 +1,9 @@
 // =============================================================================
-// TABLE COMPONENT
+// SPINNER STYLES
 // =============================================================================
+
+@use '@angular/material'as mat;
+
+:root {
+  @include mat.progress-spinner-overrides((active-indicator-color: var(--color-tahiti)));
+}

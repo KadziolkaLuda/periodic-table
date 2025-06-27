@@ -1,0 +1,20 @@
+// =============================================================================
+// BUTTONS STYLES
+// =============================================================================
+
+@use '@angular/material' as mat;
+
+:root {
+  @include mat.button-overrides((
+    filled-container-color: var(--color-tahiti),
+    filled-ripple-color: var(--color-tahiti-dark),
+    filled-label-text-color: var(--color-white),
+  ));
+
+  @include mat.icon-button-overrides((
+    container-shape: square,
+    hover-state-layer-opacity: 0.02,
+    focus-state-layer-opacity: 0.02,
+    pressed-state-layer-opacity: 0.02
+  ))
+}

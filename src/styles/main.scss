@@ -3,12 +3,13 @@
 
 // Layout
 @use 'layout/layout' as layout;
+@use 'layout/header' as header;
 
 // Components
-@use 'components/header' as header;
-@use 'components/footer' as footer;
-@use 'components/table' as table;
 @use 'components/dialog' as dialog;
+@use 'components/form' as form;
+@use 'components/spinner' as spinner;
+@use 'components/buttons' as buttons;
 
 // Tailwind CSS
 @tailwind base;

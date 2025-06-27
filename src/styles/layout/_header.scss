@@ -1,13 +1,12 @@
 // =============================================================================
-// DIALOG STYLES
+// HEADER COMPONENT
 // =============================================================================
-
 @use '@angular/material' as mat;
 
-:root {
-  @include mat.dialog-overrides((
-    container-max-width: 30rem,
-    subhead-line-height: 1,
-    actions-padding: 2rem
+.app-header {
+  @include mat.toolbar-overrides((
+    container-background-color: var(--color-grey-dark),
+    container-text-color: var(--color-white),
   ));
+  
 }

@@ -1,13 +1,16 @@
-<mat-toolbar color="primary" class="app-header">
-  <div class="flex items-center justify-between w-full">
-    <div class="flex flex-col sm:flex-row items-baseline">
-      <span class="text-sm sm:text-2xl font-medium pr-2">{{headerTitle}}</span>
-      <span class="text-xs sm:text-sm opacity-90">{{headerDescription}}</span>
+<header>
+  <mat-toolbar class="app-header">
+    <div class="flex items-center justify-between w-full">
+      <div class="flex flex-col sm:flex-row items-baseline">
+        <span class="text-sm sm:text-2xl font-medium pr-2 m-0">{{headerTitle}}</span>
+        <span class="text-xs sm:text-sm opacity-90">{{headerDescription}}</span>
+      </div>
+      <div class="mx-2">
+        <a matButton="tonal" [href]="headerLink" target="_blank" rel="noopener noreferrer" 
+        aria-label="Repozytorium projektu na GitHub">
+          <span class="text-sm text-tahiti">{{headerLinkText}}</span>
+        </a>
+      </div>
     </div>
-    <div class="mx-2">
-      <a matButton="tonal" color="primary" [href]="headerLink" target="_blank">
-        <span class="text-sm">{{headerLinkText}}</span>
-      </a>
-    </div>
-  </div>
-</mat-toolbar>
+  </mat-toolbar>
+</header>

@@ -17,6 +17,7 @@ export default {
     extend: {
       colors: {       
         tahiti: 'var(--color-tahiti)',
+        greyDark: 'var(--color-grey-dark)',
       },
     },
   },

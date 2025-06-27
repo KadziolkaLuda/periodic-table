@@ -1,0 +1,13 @@
+.periodic-table__wrapper {
+  min-width: 18rem;
+  overflow-y: auto;
+
+  .mat-column {
+    &-position {
+      width: 2rem;
+    }
+    &-actions {
+      width: 4rem;
+    }
+  }
+}

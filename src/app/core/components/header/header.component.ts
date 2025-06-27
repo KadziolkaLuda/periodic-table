@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-  protected headerTitle = 'Zadanie rekrutacyjne';
+  protected headerTitle = 'Recruitment Task';
   protected headerDescription = 'Junior Angular Developer';
   protected headerLink = 'https://github.com/KadziolkaLuda/periodic-table';
   protected headerLinkText = 'GitHub';
