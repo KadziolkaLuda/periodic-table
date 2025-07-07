@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ interface DialogData extends Partial<PeriodicElement> {
 @Component({
   selector: 'app-element-form-dialog',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,
@@ -42,7 +43,7 @@ export class ElementFormDialogComponent implements OnInit {
   ) {
     this.isEdit = data.isEdit;
     this.existingElements = data.existingElements || [];
-    
+
     this.form = this.fb.group({
       position: ['', [Validators.required, Validators.min(1), uniquePositionValidator({
         existingElements: this.existingElements,
@@ -74,4 +75,4 @@ export class ElementFormDialogComponent implements OnInit {
   onCancel() {
     this.dialogRef.close();
   }
-} 
+}

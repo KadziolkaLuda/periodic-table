@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { HeaderComponent } from './core/components/header/header.component';
 import { FooterComponent } from './core/components/footer/footer.component';
 import { PeriodicTableComponent } from './features/periodic-table/periodic-table.component';
@@ -6,6 +6,7 @@ import { PeriodicTableComponent } from './features/periodic-table/periodic-table
 @Component({
   selector: 'app-root',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [HeaderComponent, FooterComponent, PeriodicTableComponent],
   templateUrl: './app.html'
 })

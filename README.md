@@ -15,10 +15,11 @@ A modern Angular application for managing and displaying the periodic table of e
 ## 🛠️ Technology Stack
 
 - **Frontend Framework**: Angular 20 (Standalone Components)
-- **State Management**: Angular Signals (SignalStore)
+- **State Management**: NgRx SignalStore 20.0.0-beta.0
 - **UI Library**: Angular Material 20
 - **Styling**: Tailwind CSS 3.4
 - **Build Tool**: Angular CLI 20
+- **Change Detection**: OnPush Strategy with Zoneless Change Detection
 
 
 ## 🏗️ Project Structure
@@ -86,11 +87,62 @@ npm run build --configuration production
 
 ## 🎯 Key Features
 
-### SignalStore State Management
-The application uses Angular Signals for reactive state management:
+## 🎯 Key Features
+
+### NgRx SignalStore State Management
+The application uses NgRx SignalStore for reactive state management with proper immutability patterns:
+
+```typescript
+export class PeriodicTableStore extends signalStore(
+  withState(initialState),
+  withComputed((state) => ({
+    filteredElements: computed(() => { /* ... */ })
+  })),
+  withMethods((store) => ({
+    loadElements() { /* ... */ },
+    updateFilter() { /* ... */ }
+  }))
+)
+```
+
+### OnPush Change Detection Strategy
+All components use `ChangeDetectionStrategy.OnPush` for optimal performance:
+
+```typescript
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+```
+
+### Zoneless Change Detection
+Application configured with `provideZonelessChangeDetection()` for better performance and reduced bundle size.
+
+### RxJS Memory Management
+Proper unsubscribe handling using `takeUntil()` pattern with `OnDestroy`:
+
+```typescript
+export class PeriodicTableComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
+
+  ngOnInit() {
+    this.filterSubject
+      .pipe(
+        debounceTime(2000),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(/* ... */);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}
+```
 
 ### Custom Validators
-Reusable form validators for data validation
+Reusable form validators for data validation with proper TypeScript typing.
 
 
 ## 👨‍💻 Author

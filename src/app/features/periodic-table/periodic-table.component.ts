@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -11,11 +11,12 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { PeriodicElement } from '../../shared/models/periodic-element.interface';
 import { PeriodicTableStore } from '../../shared/stores/periodic-table.store';
 import { ElementFormDialogComponent } from './element-form-dialog/element-form-dialog.component';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-periodic-table',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     FormsModule,
@@ -30,10 +31,11 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
   templateUrl: './periodic-table.component.html',
   styleUrls: ['./periodic-table.component.scss']
 })
-export class PeriodicTableComponent implements OnInit {
+export class PeriodicTableComponent implements OnInit, OnDestroy {
   private store = inject(PeriodicTableStore);
   private dialog = inject(MatDialog);
   private filterSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   // Signals from store
   readonly elements = this.store.filteredElements;
@@ -50,11 +52,17 @@ export class PeriodicTableComponent implements OnInit {
     this.filterSubject
       .pipe(
         debounceTime(2000), // 2 seconds delay
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
       )
       .subscribe(filterValue => {
         this.store.updateFilter(filterValue);
       });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onFilterChange(event: Event) {
@@ -62,24 +70,26 @@ export class PeriodicTableComponent implements OnInit {
     this.filterSubject.next(filterValue);
   }
 
-  editElement(element: PeriodicElement) {
+      editElement(element: PeriodicElement) {
     const dialogRef = this.dialog.open(ElementFormDialogComponent, {
-      data: { 
-        ...element, 
+      data: {
+        ...element,
         isEdit: true,
         originalPosition: element.position,
         existingElements: this.elements()
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.updateElement(result, element.position);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: PeriodicElement | undefined) => {
+        if (result) {
+          this.store.updateElement(result, element.position);
+        }
+      });
   }
 
-  addNewElement() {
+      addNewElement() {
     const newElement: Partial<PeriodicElement> = {
       position: 0,
       name: '',
@@ -88,17 +98,19 @@ export class PeriodicTableComponent implements OnInit {
     };
 
     const dialogRef = this.dialog.open(ElementFormDialogComponent, {
-      data: { 
-        ...newElement, 
+      data: {
+        ...newElement,
         isEdit: false,
         existingElements: this.elements()
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.addElement(result);
-      }
-    });
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: PeriodicElement | undefined) => {
+        if (result) {
+          this.store.addElement(result);
+        }
+      });
   }
-} 
+}
